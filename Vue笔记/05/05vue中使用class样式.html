@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../lib/vue.min.js"></script>
+    <title>Document</title>
+    <style>
+        .red{
+            color:red;
+        }
+        .thin{
+            font-weight: 200;
+        }
+        .italic{
+            font-style: italic;
+        }
+        .active{
+            letter-spacing: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="inner" @click.self="divHandler1">
+        <h1 :class=['red','thin']>很大的h1</h1>
+        <h1 :class=['red','thin',flag?'active':'']>很大的h1</h1>
+        <h1 :class=['red','thin',{'active':flag}]>很大的h1</h1>
+        <h1 :class="classObj">很大的h1</h1>
+        
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            flag:true, //flag为真时 间距变大 
+            classObj:{red:true,thin:true,active:true,italic:false},
+        },
+        methods:{}
+    });
+</script>
+</html>
