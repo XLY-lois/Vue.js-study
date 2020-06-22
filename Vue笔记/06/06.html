@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../lib/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app" class="inner" @click.self="divHandler1">
+    <input type="button" value="按钮" @click="toogle">
+        <h3 v-if="flag">这是v-if控制的元素</h3>
+    <h3 v-show="flag">这是v-show控制的元素</h3>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            flag:true,
+        },
+        methods:{
+            toogle(){
+                this.flag = !this.flag;
+            }
+        }
+    });
+</script>
+</html>

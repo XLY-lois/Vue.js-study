@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ msg | msgFormat('第二个参数')}}</p>
+    </div>
+
+    <div id="app2">
+        <p>{{ dt | dateFormat }}</p>
+    </div>
+</body>
+<script>
+    //定义一个过滤器(全局)
+    Vue.filter('msgFormat',function(msg,arg){
+        return msg.replace(/哈/g,arg);//把哈哈替换
+    });
+
+    
+
+    //全局过滤器
+    Vue.filter('dateFormat',function(dateStr){
+        //根据字符串得到特定的时间
+        var dt = new Date(dateStr);
+        var y = dt.getFullYear();
+        var m = dt.getMonth() + 1 ;//月份从0开始，因此要加1
+        var d = dt.getDate();
+
+        return `${y}-${m}-${d}`;//模板字符串
+    });
+
+
+ 
+
+
+
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'hhhhhhh哈哈aaaa',
+        },
+        methods:{}
+    });
+
+    //私有过滤器
+    var vm2 = new Vue({
+        el:'#app2',
+        data:{
+            dt:new Date(),
+        },
+        methods:{},
+        filters:{//定义私有过滤器， 条件：过滤器名称和处理函数
+            dateFormat:function(dateStr){
+                var dt = new Date(dateStr);
+                var y = dt.getFullYear();
+                var m = dt.getMonth() + 1 ;//月份从0开始，因此要加1
+                var d = dt.getDate();
+
+                return `${y}-${m}-${d}`;//模板字符串
+            }
+        }
+    });
+</script>
+</html>

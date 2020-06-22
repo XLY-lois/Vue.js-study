@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap.css">
+</head>
+<body>
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">品牌列表</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label for="">
+                    ID:
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+                <label for="">
+                    Name:
+                    <input type="text" class="form-control" v-model="name" @keyup.enter="add">
+                </label>
+
+                <input type="button" value="添加" class="btn btn-primary" @click="add">
+                <label for="">
+                    搜索关键字：
+                    <input type="text" class="form-control" v-model="keywords">
+                </label>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in search(keywords)" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.ctime | dateFormat}}</td>
+                    <td>
+                        <a href="" @click.prevent="del(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    //全局过滤器
+    Vue.filter('dateFormat',function(dateStr){
+        //根据字符串得到特定的时间
+        var dt = new Date(dateStr);
+        var y = dt.getFullYear();
+        var m = (dt.getMonth() + 1).toString().padStart(2,'0');//月份从0开始，因此要加1
+        var d = (dt.getDate() + 1).toString().padStart(2,'0');
+
+        return `${y}-${m}-${d}`;//模板字符串
+    });
+
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            id:'',
+            name:'',
+            keywords:'',
+            list:[
+                {id:1,name:'奔驰',ctime:new Date()},
+                {id:2,name:'宝马',ctime:new Date()},
+            ]
+        },
+        methods:{
+            add(){//添加方法
+                var car = {id:this.id,name:this.name,ctime:new Date()};//创建汽车对象
+                this.list.push(car);
+                this.name = this.id = ''; //重新赋值为空 
+            },
+            del(id){ //根据id删除
+                this.list.some((item,i)=>{
+                    if(item.id === id){
+                        this.list.splice(i,1);
+                        return true;
+                    }
+                })
+            },
+            search(keywords){//自定义一个方法来渲染数据，方便查询关键字时实时更新数据
+                //方法1
+                // var newList = [];
+                // this.list.forEach(item => {
+                //     if(item.name.indexOf(keywords) != -1){//判断是否包含keywords
+                //         newList.push(item);//如果包含关键字就把item对象push到新数组内
+                //     }
+                // });
+                // return newList;//最后把newList return出去
+
+                //方法2
+
+                var newList = this.list.filter(item => {
+                    if(item.name.includes(keywords)){//如果包含返回true
+                        return item;
+                    }
+                });
+                return newList;
+            }
+        }
+    });
+</script>
+</html>
