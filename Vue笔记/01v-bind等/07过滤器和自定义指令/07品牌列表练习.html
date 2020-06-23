@@ -26,7 +26,7 @@
                 <input type="button" value="添加" class="btn btn-primary" @click="add">
                 <label for="">
                     搜索关键字：
-                    <input type="text" class="form-control" v-model="keywords">
+                    <input type="text" class="form-control" v-model="keywords" id="search" v-focus v-color="'blue'">
                 </label>
             </div>
         </div>
@@ -63,6 +63,26 @@
         var d = (dt.getDate() + 1).toString().padStart(2,'0');
 
         return `${y}-${m}-${d}`;//模板字符串
+    });
+    //定义全局指令  每个函数中第一个参数永远是el，表示被绑定了指令的那个元素（dom对象）
+    Vue.directive('focus',{
+        bind: function(el){
+            // el.focus();
+        },//每当指令绑定到元素上时会立即执行这个函数 只执行一次
+        inserted: function(el){
+            el.focus();
+        },//元素插入到dom中时会执行 只执行一次
+        update: function(){}//当VNode更新时会执行 可能会触发多次
+    });
+
+    Vue.directive('color',{
+        bind: function(el,binding){
+            // el.style.color = 'red';
+            el.style.color = binding.value;
+        },
+        inserted: function(el){
+        },
+        update: function(){}
     });
 
     var vm = new Vue({
@@ -111,5 +131,7 @@
             }
         }
     });
+
+    // document.getElementById('search').focus();
 </script>
 </html>
