@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h3 id="h3">{{ msg }}</h3>
+        <input type="button" value="修改msg" @click="msg='no'">
+    </div>
+    
+</body>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'ok'
+        },
+        methods:{
+            show(){
+                console.log('执行了show方法');
+            }
+        },
+        beforeCreate(){//第一个生命周期函数,表示实例完全被创建出来之前会执行
+            //在这个函数执行的时候，data和methods中的三个月还有都还没被初始化
+            //因此不能调用show方法以及打印msg
+        },
+        created(){//第二个生命周期函数,如果要使用data的数据或methods中的方法，最早只能在此函数中执行
+            //在这个函数执行的时候，data和methods已经初始化好了
+            console.log(this.msg);
+            this.show();//可行
+        },
+        beforeMount(){//第三个生命周期函数
+            //在这个函数执行时，模板已经在内存中编译完成 但还没挂在到页面中
+            // console.log(document.getElementById('h3').innerText);
+            //打印的是： {{ msg }}
+            //说明页面中的元素还没有被真正替换过来，只是一些模板字符串
+        },
+        mounted(){//第四个生命周期函数,也是实例创建期间最后一个生命周期函数
+            //在这个函数执行的时候，内存中的模板已经真实地挂在到页面中，已经可用看到渲染好的页面
+            // console.log(document.getElementById('h3').innerText);
+            //此时打印的是： ok
+            //当执行完mounted表示实例已经完全创建好了
+            //dom操作的最早时刻
+        },
+        //只有在数据发生改变时才会执行以下两个函数，因此执行的次数最少是0次
+        beforeUpdate(){//表示页面还没有被更新，但数据更新了
+            console.log('界面上的内容是'+ document.getElementById('h3').innerText); // 打印的是 ok
+            console.log('data中的msg是' + this.msg); //打印的是 no
+            //原因是执行此函数时，页面中的数据还是旧的，而此时data中的数据是新的，两者尚未同步
+        },
+        updated(){
+            console.log('界面上的内容是'+ document.getElementById('h3').innerText);
+            console.log('data中的msg是' + this.msg);\
+            //此时两个都是打印： no
+        }
+
+    });
+</script>
+</html>

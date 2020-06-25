@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+    <style>
+        /* 起始和结束时间点 */
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform: translateX(200px);
+        }
+        /* 进入后和离开前的时间段 */
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.4s ease;
+        }
+
+        /* 自定义类名 */
+        .my-enter,
+        .my-leave-to{
+            opacity: 0;
+            transform: translateY(200px);
+        }
+        .my-enter-active,
+        .my-leave-active{
+            transition: all 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="tpggle" @click="flag=!flag">
+        <transition>
+        <h3 v-if="flag">这是一个h3</h3>
+        </transition>
+        <hr>
+
+        <input type="button" value="tpggle" @click="flag2=!flag2">
+        <transition name="my">
+            <h6 v-if="flag2">这是一个h3</h3>
+        </transition>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            flag:false,
+            flag2:false,
+        },
+        methods:{}
+    });
+</script>
+</html>

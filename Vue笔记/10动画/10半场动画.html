@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+    <link rel="stylesheet" href="../lib/animate.min.css">
+    <style>
+        .ball{
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            background-color: purple;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="快到碗里来哈哈哈"  @click="flag = !flag">
+        <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+        <div class="ball" v-show="flag"></div>
+        </transition>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            flag:false,
+        },
+        methods:{
+            // 动画钩子函数el表示要执行动画的那个元素 是个原生的dom对象
+            beforeEnter(el){
+            //动画开始之前
+                el.style.transform = "translate(0,0)"
+            },
+            enter(el,done){
+            //动画开始之后的样式
+                el.offsetWidth//强制动画刷新
+                el.style.transform = "translate(150px,450px)"
+                el.style.transition = "all 1s ease"
+            
+                done();//这里的done其实就是afterEnter函数，即done是afterEnter的引用
+                //如果不调用回调函数done，就会出现效果的延迟，在本例中即小球消失会比较慢
+            },
+            afterEnter(el){
+            //动画完成之后
+                this.flag = !this.flag;
+
+            }
+        }
+    });
+</script>
+</html>
