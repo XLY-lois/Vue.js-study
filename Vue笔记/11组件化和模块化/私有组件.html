@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 使用组件 -->
+        <!-- 注意使用的时候，驼峰要改成'-' -->
+        <my-com3></my-com3>
+    </div>
+
+    <div id="app2">
+        <my-com3></my-com3> 
+        <!-- 全局的组件所以在app2中也能使用 -->
+        <login></login>
+    </div>
+    
+    <!-- 在被控制的app外 使用template定义模板元素 -->
+    <template id="tmp1">
+        <div>
+            <h1>这是通过template元素在外部定义的组件结构，在这定义时会有代码提示</h1>
+            <h3>好用！！</h3>
+        </div>
+    </template>
+
+    <template id="tmp2"> 
+        <h1>外部定义的私有组件</h1>
+    </template>
+</body>
+<script>
+    Vue.component('myCom3',{
+        template:'#tmp1',//指向一个id
+    })
+
+    var vm = new Vue({
+        el:'#app',
+        data:{
+        },
+        methods:{}
+    });
+
+    var vm2 = new Vue({
+        el:'#app2',
+        data:{},
+        methods:{},
+        components:{
+            //定义实例内部私有组件
+            login:{
+                template:'#tmp2'
+            }
+        }
+    });
+</script>
+</html>

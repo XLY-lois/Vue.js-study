@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 使用组件 -->
+        <!-- 注意使用的时候，驼峰要改成'-' -->
+        <my-com2></my-com2>
+    </div>
+</body>
+<script>
+    Vue.component('myCom2',{
+        template:'<h3>方法2，直接使用Vue.component</h3>',
+    })
+    //缺点只能有一个根元素，比如说在h3后面再加一个span标签就会报错，因为他们俩是并列的同为根元素,但可通过在两个元素外面包一个div就能解决
+    var vm = new Vue({
+        el:'#app',
+        data:{
+        },
+        methods:{}
+    });
+</script>
+</html>
