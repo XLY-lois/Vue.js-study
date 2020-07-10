@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <style>
+        .router-link-active{
+          color: purple;
+          font-weight: 800;  
+          font-style:  italic;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- <a href="#/login">登录</a>
+        <a href="#/register">注册</a> -->
+
+        <router-link to="/login" tag="span">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <!-- vue-router提供的标签 -->
+        <router-view></router-view>
+    </div>
+</body>
+<script>
+    //login组件模板对象
+    var login = {
+        template:'<h1>登录组件</h1>'
+    }
+
+    var register = {
+        template:'<h1>注册组件</h1>'
+    }
+
+
+    var routerObj = new VueRouter({
+        routes:[
+            //每个路由规则都是一个对象
+            //属性1：path 表示监听 哪个路由链接地址
+            //属性2： component 表示如果路由是前面匹配到的 path 则展示component对应的组件
+            {path:'/',redirect:'/login'},//将根路径重定向到login组件 和node中的重定向完全不同（node是服务器端的重定向？）
+            {path:'/login',component:login},//component的值 放的是组件模板对象 不能是组件引用的名称
+            {path:'/register',component:register}
+        ],
+    });
+
+    var vm = new Vue({
+        el:'#app',
+        data:{},
+        router:routerObj//将路由规则对象注册到vm实例上
+
+    });
+</script>
+</html>
