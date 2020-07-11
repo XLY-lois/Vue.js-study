@@ -60,3 +60,49 @@
 - 此时在$route对象中 有个params对象 对象里面会有个对象存放着 {id：'12'}
 - 通过`this.$route.params.id`可拿到id
 `<h1>--{{ $route.params.id }}--</h1>`
+
+##### 路由嵌套
+```
+var router = new VueRouter({
+        routes:[
+            {
+                path:'/account',
+                component:account,
+                children:[
+                    {path:'login',component:login},
+                    {path:'register',component:register}
+                ]    
+            },
+        ]
+    })
+```
+- 在最后一层嵌套子路由时 如果不加‘/’ 如上例  则在组件中要把根路由写上
+```
+<template id="tmpl">
+        <div>
+            <h1>这是 Account 组件</h1>
+
+            <router-link to="/account/login">登录</router-link>
+            <router-link to="/account/register">注册</router-link>
+
+            <router-view></router-view>
+        </div>
+</template>
+```
+- 如果子路由在注册时加了‘/’ 则在组件中直接使用 但是可读性可能就比较差
+```
+<template id="tmpl">
+        <div>
+            <h1>这是 Account 组件</h1>
+
+            <router-link to="/login">登录</router-link>
+            <router-link to="/register">注册</router-link>
+
+            <router-view></router-view>
+        </div>
+</template>
+```
+
+##### 命名视图
+- 可以为组件命名 在指定name属性的router-view中使用对应的组件
+- 详情请看14命名视图实现经典布局.html
