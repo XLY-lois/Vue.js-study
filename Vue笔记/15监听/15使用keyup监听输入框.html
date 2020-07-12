@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+    <script src="../lib/vue-router.js"></script>
+</head>
+<body>
+    <!-- 我们要监听到文本框数据的改变 -->
+    <!-- 如何监听到文本框的数据改变？？ -->
+
+
+    <div id="app">
+        <input type="text" v-model="firstname" @keyup="getFullName">+
+        <input type="text" v-model="lastname" @keyup="getFullName">=
+        <input type="text" v-model="fullname">
+    </div>
+</body>
+<script>
+
+
+
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            firstname:'',
+            lastname:'',
+            fullname:''
+        },
+        methods:{
+            getFullName(){
+                this.fullname = this.firstname + '-' + this.lastname;
+            }
+        }
+    });
+</script>
+</html>
